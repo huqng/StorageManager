@@ -16,6 +16,7 @@ public:
 
     QList<QStringList> Select(QString strNameLike);
     void Update(QString strItemID, int iNewQuantity);
+    void Delete(QString strItemID);
 
 };
 
@@ -30,4 +31,5 @@ public:
     void SetColNames(QStringList strlistNames);
     QList<QStringList> Select(QString strNameLike);
     void Update(QString strItemID, int iNewQuantity);
+    void Delete(QString strItemID);
 };

@@ -74,10 +74,21 @@ void MdbControl::Update(QString strItemID, int iNewQuantity)
     if (!ok)
     {
         QString strLastError = q.lastError().text();
+        abort();
     }
 }
 
-
+void MdbControl::Delete(QString strItemID)
+{
+    QSqlQuery q(m_db);
+    QString strCmd = QString("DELETE FROM Storage WHERE ItemID = ").append(strItemID);
+    bool ok = q.exec(strCmd);
+    if (!ok)
+    {
+        QString strLastError = q.lastError().text();
+        abort();
+    }
+}
 
 
 CStorageManager::CStorageManager()
@@ -110,4 +121,9 @@ QList<QStringList> CStorageManager::Select(QString strNameLike)
 void CStorageManager::Update(QString strItemID, int iNewQuantity)
 {
     return m_MdbControl.Update(strItemID, iNewQuantity);
+}
+
+void CStorageManager::Delete(QString strItemID)
+{
+    return m_MdbControl.Delete(strItemID);
 }

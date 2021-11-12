@@ -129,7 +129,11 @@
      <item row="6" column="2">
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
-        <widget class="QSpinBox" name="sbItemQuantity"/>
+        <widget class="QSpinBox" name="sbItemQuantity">
+         <property name="maximum">
+          <number>999</number>
+         </property>
+        </widget>
        </item>
        <item>
         <widget class="QLabel" name="labelItemUnit">

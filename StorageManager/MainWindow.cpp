@@ -3,6 +3,7 @@
 #include "DlgCheckIn.h"
 #include "DlgCheckOut.h"
 
+#include <qmessagebox.h>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -93,8 +94,8 @@ void MainWindow::slotOnCheckOutClicked()
 
 void MainWindow::slotOnSearchClicked()
 {
-    ui.tableWidget->clearContents();
-
+    ui.tableWidget->setRowCount(0);
+    
     QString strNameLike = ui.lineEdit->text();
     QList<QStringList> listResult =  m_mgr.Select(strNameLike);
     ui.tableWidget->setRowCount(listResult.at(0).size());
@@ -116,7 +117,33 @@ void MainWindow::slotOnAddNewItemClicked()
 
 void MainWindow::slotOnDeleteItemClicked()
 {
+    int iRow = ui.tableWidget->selectedItems().at(0)->row();
+    QString strItemID = ui.tableWidget->item(iRow, 0)->text();
+    QString strItemName = ui.tableWidget->item(iRow, 1)->text();
+    int iQuantity = ui.tableWidget->item(iRow, 2)->text().toInt();
+    QString strItemUnit = ui.tableWidget->item(iRow, 3)->text();
+    QString strItemPosition1 = ui.tableWidget->item(iRow, 4)->text();
+    QString strItemPosition2 = ui.tableWidget->item(iRow, 5)->text();
+    QString strItemPosition3 = ui.tableWidget->item(iRow, 6)->text();
+    QString strComments = ui.tableWidget->item(iRow, 7)->text();
 
+    QString strNotice = QString(u8"È·ÈÏÉ¾³ý [").append(strItemID).append("] ").append(strItemName).append(u8"£¿");
+
+    QMessageBox qmb;
+    qmb.addButton(QMessageBox::Ok);
+    qmb.addButton(QMessageBox::Cancel);
+    qmb.setText(strNotice);
+
+
+    if (qmb.exec() == QMessageBox::Ok)
+    {
+        m_mgr.Delete(strItemID);
+        ui.tableWidget->removeRow(iRow);
+    }
+    else
+    {
+
+    }
 }
 
 void MainWindow::slotOnItemSelected()

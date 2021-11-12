@@ -14,7 +14,7 @@ DlgCheckOut::DlgCheckOut(QString strItemID, \
 
 	ui.labelItemID->setText(strItemID);
 	ui.labelItemName->setText(strItemName);
-	ui.labelCurrentQuantityUnit->setText(QString::number(iCurrentQuantity).append(strItemUnit));
+	ui.labelCurrentQuantityUnit->setText(QString::number(iCurrentQuantity).append(" ").append(strItemUnit));
 	ui.sbItemQuantity->setMaximum(iCurrentQuantity);
 	ui.labelItemPosition1->setText(strItemPosition1);
 	ui.labelItemPosition2->setText(strItemPosition2);
