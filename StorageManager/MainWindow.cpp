@@ -2,8 +2,11 @@
 
 #include "DlgCheckIn.h"
 #include "DlgCheckOut.h"
+#include "DlgAddItem.h";
 
 #include <qmessagebox.h>
+#include <qsettings.h>
+#include <qdebug.h>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -29,6 +32,10 @@ MainWindow::MainWindow(QWidget *parent)
     strlistColNames.append("ItemPosition1");
     strlistColNames.append("Comments");    
     m_mgr.SetColNames(strlistColNames);
+    QSettings iniReader("./config.ini", QSettings::Format::IniFormat);
+    iniReader.beginGroup("Config");
+    m_mgr.SetFilename(iniReader.value("Filename").toString());
+    iniReader.endGroup();
 
     connect(ui.btnCheckIn, &QPushButton::clicked, this, &MainWindow::slotOnCheckInClicked);
     connect(ui.btnCheckOut, &QPushButton::clicked, this, &MainWindow::slotOnCheckOutClicked);
@@ -40,7 +47,6 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
-
 
 }
 
@@ -94,7 +100,8 @@ void MainWindow::slotOnCheckOutClicked()
 
 void MainWindow::slotOnSearchClicked()
 {
-    ui.tableWidget->setRowCount(0);
+    ui.tableWidget->setSortingEnabled(false);
+    ui.tableWidget->clearContents();
     
     QString strNameLike = ui.lineEdit->text();
     QList<QStringList> listResult =  m_mgr.Select(strNameLike);
@@ -107,12 +114,28 @@ void MainWindow::slotOnSearchClicked()
         {
             ui.tableWidget->setItem(j, i, new QTableWidgetItem(strlistCol.at(j)));
         }
-    }   
+    }
+    ui.tableWidget->setSortingEnabled(true);
 }
 
 void MainWindow::slotOnAddNewItemClicked()
 {
+    int iItemID = m_mgr.GetNextID();
 
+    /* get 7 parameters */
+    DlgAddItem dlg(iItemID);
+    if (dlg.exec() == QDialog::Accepted)
+    {
+        QString strItemName = dlg.GetItemName();
+        int iItemQuantity = dlg.GetItemQuantity();;
+        QString strItemUnit = dlg.GetItemUnit();
+        QString strItemPosition1 = dlg.GetItemPosition1();
+        QString strItemPosition2 = dlg.GetItemPosition2();
+        QString strItemPosition3 = dlg.GetItemPosition3();;
+        QString strComments = dlg.GetComments();
+
+        m_mgr.Insert(iItemID, strItemName, iItemQuantity, strItemUnit, strItemPosition1, strItemPosition2, strItemPosition3, strComments);
+    }
 }
 
 void MainWindow::slotOnDeleteItemClicked()

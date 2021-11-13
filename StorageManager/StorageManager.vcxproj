@@ -85,9 +85,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DlgAddItem.cpp" />
     <ClCompile Include="DlgCheckIn.cpp" />
     <ClCompile Include="DlgCheckOut.cpp" />
     <ClCompile Include="StorageManager.cpp" />
+    <QtUic Include="DlgAddItem.ui" />
     <QtUic Include="DlgCheckIn.ui" />
     <QtUic Include="DlgCheckOut.ui" />
     <QtUic Include="MainWindow.ui" />
@@ -98,6 +100,7 @@
   <ItemGroup>
     <QtMoc Include="DlgCheckIn.h" />
     <QtMoc Include="DlgCheckOut.h" />
+    <QtMoc Include="DlgAddItem.h" />
     <ClInclude Include="StorageManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

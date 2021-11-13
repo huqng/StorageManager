@@ -9,15 +9,18 @@ class MdbControl
 private:
     QSqlDatabase m_db;
 public:
-    MdbControl(QString strFilename = "C:\\my\\test.mdb");
+    MdbControl();
     bool IsOpen();
     QString GetLastError();
     void Close();
 
+    void SetFilename(QString strFilename);
     QList<QStringList> Select(QString strNameLike);
     void Update(QString strItemID, int iNewQuantity);
     void Delete(QString strItemID);
-
+    void Insert(int iItemID, QString strItemName, int iItemQuantity, QString strItemUnit, QString strItemPosition1, QString strItemPosition2, QString strItemPosition3, QString strComments);
+    
+    int GetMaxID();
 };
 
 class CStorageManager
@@ -28,8 +31,13 @@ private:
     QString m_strLastQuery;
 public:
     CStorageManager();
+    void SetFilename(QString strFilename);
+
     void SetColNames(QStringList strlistNames);
     QList<QStringList> Select(QString strNameLike);
     void Update(QString strItemID, int iNewQuantity);
     void Delete(QString strItemID);
+    void Insert(int iItemID, QString strItemName, int iItemQuantity, QString strItemUnit, QString strItemPosition1, QString strItemPosition2, QString strItemPosition3, QString strComments);
+    
+    int GetNextID();
 };

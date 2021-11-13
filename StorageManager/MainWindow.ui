@@ -45,6 +45,13 @@
        </spacer>
       </item>
       <item>
+       <widget class="QPushButton" name="btnTest">
+        <property name="text">
+         <string>test</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QPushButton" name="btnAddNewItem">
         <property name="text">
          <string>添加新项</string>
@@ -62,6 +69,13 @@
     </item>
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>Name</string>
+        </property>
+       </widget>
+      </item>
       <item>
        <widget class="QLineEdit" name="lineEdit"/>
       </item>

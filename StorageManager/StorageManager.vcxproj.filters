@@ -31,6 +31,9 @@
     <QtUic Include="DlgCheckOut.ui">
       <Filter>Form Files</Filter>
     </QtUic>
+    <QtUic Include="DlgAddItem.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -43,6 +46,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DlgCheckOut.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgAddItem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -61,6 +67,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="DlgCheckOut.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="DlgAddItem.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
