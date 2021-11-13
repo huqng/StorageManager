@@ -5,7 +5,8 @@
 #include "StorageManager.h"
 
 #include <QtWidgets/QMainWindow>
-
+#include <qlist.h>
+#include <qmap.h>
 
 class MainWindow : public QMainWindow
 {
@@ -18,6 +19,7 @@ public:
 private:
     Ui::MainWindowClass ui;
     CStorageManager m_mgr;
+    QMap<QString, QStringList> m_mapPositions;
 
 public slots:
     void slotOnCheckInClicked();

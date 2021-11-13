@@ -15,12 +15,13 @@ public:
     void Close();
 
     void SetFilename(QString strFilename);
-    QList<QStringList> Select(QString strNameLike);
+    QList<QStringList> SelectNameLike(QString strNameLike);
     void Update(QString strItemID, int iNewQuantity);
     void Delete(QString strItemID);
-    void Insert(int iItemID, QString strItemName, int iItemQuantity, QString strItemUnit, QString strItemPosition1, QString strItemPosition2, QString strItemPosition3, QString strComments);
+    void Insert(QString strItemID, QString strItemName, int iItemQuantity, QString strItemUnit, QString strItemPosition1, QString strItemPosition2, QString strItemPosition3, QString strComments);
     
     int GetMaxID();
+    bool ExistID(const QString& ID);
 };
 
 class CStorageManager
@@ -37,7 +38,7 @@ public:
     QList<QStringList> Select(QString strNameLike);
     void Update(QString strItemID, int iNewQuantity);
     void Delete(QString strItemID);
-    void Insert(int iItemID, QString strItemName, int iItemQuantity, QString strItemUnit, QString strItemPosition1, QString strItemPosition2, QString strItemPosition3, QString strComments);
+    void Insert(QString strItemID, QString strItemName, int iItemQuantity, QString strItemUnit, QString strItemPosition1, QString strItemPosition2, QString strItemPosition3, QString strComments);
     
     int GetNextID();
 };

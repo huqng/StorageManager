@@ -35,7 +35,7 @@ void MdbControl::SetFilename(QString strFilename)
     m_db.open();    
 }
 
-QList<QStringList> MdbControl::Select(QString strSearchCondition)
+QList<QStringList> MdbControl::SelectNameLike(QString strSearchCondition)
 {
     QSqlQuery q(m_db);
     bool ok = q.exec(QString("SELECT * FROM Storage WHERE ItemName LIKE '%") + strSearchCondition + "%';");
@@ -51,10 +51,9 @@ QList<QStringList> MdbControl::Select(QString strSearchCondition)
 
     while (q.next())
     {
-        QSqlRecord rec = q.record();
         for (int i = 0; i < iColCnt; i++)
         {
-            QVariant var = rec.value(i);
+            QVariant var = q.value(i);
             if (var.type() == QMetaType::Int)
             {
                 listQueryResult[i].append(QString::number(var.toInt()));
@@ -94,11 +93,11 @@ void MdbControl::Delete(QString strItemID)
     }
 }
 
-void MdbControl::Insert(int iItemID, QString strItemName, int iItemQuantity, QString strItemUnit, QString strItemPosition1, QString strItemPosition2, QString strItemPosition3, QString strComments)
+void MdbControl::Insert(QString strItemID, QString strItemName, int iItemQuantity, QString strItemUnit, QString strItemPosition1, QString strItemPosition2, QString strItemPosition3, QString strComments)
 {
     QSqlQuery q(m_db);
-    QString strCmd = QString("INSERT INTO Storage VALUES(")\
-        .append(QString::number(iItemID)).append(", '")\
+    QString strCmd = QString("INSERT INTO Storage VALUES('")\
+        .append(strItemID).append("', '")\
         .append(strItemName).append("', ")\
         .append(QString::number(iItemQuantity)).append(", '")\
         .append(strItemUnit).append("', '")\
@@ -122,6 +121,20 @@ int MdbControl::GetMaxID()
     return q.record().value(0).toInt();
 }
 
+bool MdbControl::ExistID(const QString& strID)
+{
+    QSqlQuery q(m_db);
+    bool ok = q.exec(QString("SELECT count(*) FROM Storage WHERE ItemID = '") + strID + "';");
+    q.next();
+    if (q.value(0).toInt() > 0)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
 
 
 
@@ -151,7 +164,7 @@ void CStorageManager::SetColNames(QStringList strlistNames)
 QList<QStringList> CStorageManager::Select(QString strNameLike)
 {
     m_strLastQuery = strNameLike;
-    return m_MdbControl.Select(strNameLike);
+    return m_MdbControl.SelectNameLike(strNameLike);
 }
 
 void CStorageManager::Update(QString strItemID, int iNewQuantity)
@@ -164,10 +177,19 @@ void CStorageManager::Delete(QString strItemID)
     return m_MdbControl.Delete(strItemID);
 }
 
-void CStorageManager::Insert(int iItemID, QString strItemName, int iItemQuantity, QString strItemUnit, QString strItemPosition1, QString strItemPosition2, QString strItemPosition3, QString strComments)
+void CStorageManager::Insert(QString strItemID, QString strItemName, int iItemQuantity, QString strItemUnit, QString strItemPosition1, QString strItemPosition2, QString strItemPosition3, QString strComments)
 {
     // SELECT MAX(ItemID) from Storage
-    return m_MdbControl.Insert(iItemID, strItemName, iItemQuantity, strItemUnit, strItemPosition1, strItemPosition2, strItemPosition3, strComments);
+    if (m_MdbControl.ExistID(strItemID))
+    {
+        QMessageBox messageBox;
+        messageBox.setText(QString(u8"´íÎó£ºID ").append(strItemID).append(u8" ÒÑ´æÔÚ"));
+        messageBox.exec();
+    }
+    else
+    {       
+        m_MdbControl.Insert(strItemID, strItemName, iItemQuantity, strItemUnit, strItemPosition1, strItemPosition2, strItemPosition3, strComments);
+    }
 }
 
 int CStorageManager::GetNextID()

@@ -33,8 +33,17 @@ MainWindow::MainWindow(QWidget *parent)
     strlistColNames.append("Comments");    
     m_mgr.SetColNames(strlistColNames);
     QSettings iniReader("./config.ini", QSettings::Format::IniFormat);
-    iniReader.beginGroup("Config");
+    iniReader.beginGroup("File");
     m_mgr.SetFilename(iniReader.value("Filename").toString());
+    iniReader.endGroup();
+
+    iniReader.beginGroup("Position");
+    QStringList strlistPositions = iniReader.allKeys();
+    for (QString strPosition : strlistPositions)
+    {
+        QStringList strlistPosition2 = iniReader.value(strPosition).toStringList();
+        m_mapPositions[strPosition] = strlistPosition2;
+    }
     iniReader.endGroup();
 
     connect(ui.btnCheckIn, &QPushButton::clicked, this, &MainWindow::slotOnCheckInClicked);
@@ -120,12 +129,12 @@ void MainWindow::slotOnSearchClicked()
 
 void MainWindow::slotOnAddNewItemClicked()
 {
-    int iItemID = m_mgr.GetNextID();
-
     /* get 7 parameters */
-    DlgAddItem dlg(iItemID);
+    DlgAddItem dlg;
+    dlg.SetPositionOptions(m_mapPositions);
     if (dlg.exec() == QDialog::Accepted)
     {
+        QString iItemID = dlg.GetItemID();
         QString strItemName = dlg.GetItemName();
         int iItemQuantity = dlg.GetItemQuantity();;
         QString strItemUnit = dlg.GetItemUnit();
@@ -141,6 +150,7 @@ void MainWindow::slotOnAddNewItemClicked()
 void MainWindow::slotOnDeleteItemClicked()
 {
     int iRow = ui.tableWidget->selectedItems().at(0)->row();
+
     QString strItemID = ui.tableWidget->item(iRow, 0)->text();
     QString strItemName = ui.tableWidget->item(iRow, 1)->text();
     int iQuantity = ui.tableWidget->item(iRow, 2)->text().toInt();

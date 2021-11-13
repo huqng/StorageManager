@@ -36,13 +36,6 @@
        </property>
       </widget>
      </item>
-     <item row="3" column="2">
-      <widget class="QLineEdit" name="lineEditItemPosition2">
-       <property name="text">
-        <string>库位2</string>
-       </property>
-      </widget>
-     </item>
      <item row="6" column="1">
       <widget class="QLabel" name="label_8">
        <property name="text">
@@ -58,7 +51,11 @@
       </widget>
      </item>
      <item row="5" column="2">
-      <widget class="QSpinBox" name="sbItemQuantity"/>
+      <widget class="QSpinBox" name="sbItemQuantity">
+       <property name="maximum">
+        <number>9999</number>
+       </property>
+      </widget>
      </item>
      <item row="3" column="1">
       <widget class="QLabel" name="label_5">
@@ -81,17 +78,13 @@
        </property>
       </widget>
      </item>
-     <item row="2" column="2">
-      <widget class="QLineEdit" name="lineEditItemPosition1">
-       <property name="text">
-        <string>库位1</string>
-       </property>
-      </widget>
-     </item>
      <item row="6" column="2">
       <widget class="QLineEdit" name="lineEditItemUnit">
        <property name="text">
         <string>unit</string>
+       </property>
+       <property name="maxLength">
+        <number>32</number>
        </property>
       </widget>
      </item>
@@ -107,12 +100,8 @@
        <property name="text">
         <string>待添加项的名称</string>
        </property>
-      </widget>
-     </item>
-     <item row="0" column="2">
-      <widget class="QLabel" name="labelItemID">
-       <property name="text">
-        <string>12345</string>
+       <property name="maxLength">
+        <number>32</number>
        </property>
       </widget>
      </item>
@@ -120,6 +109,9 @@
       <widget class="QLineEdit" name="lineEditItemPosition3">
        <property name="text">
         <string>库位3</string>
+       </property>
+       <property name="maxLength">
+        <number>32</number>
        </property>
       </widget>
      </item>
@@ -133,7 +125,10 @@
      <item row="7" column="2">
       <widget class="QLineEdit" name="lineEditComments">
        <property name="text">
-        <string>[]</string>
+        <string>ppppppppp</string>
+       </property>
+       <property name="maxLength">
+        <number>256</number>
        </property>
       </widget>
      </item>
@@ -162,6 +157,22 @@
         </size>
        </property>
       </spacer>
+     </item>
+     <item row="0" column="2">
+      <widget class="QLineEdit" name="lineEditItemID">
+       <property name="text">
+        <string>2020202020</string>
+       </property>
+       <property name="maxLength">
+        <number>32</number>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="2">
+      <widget class="QComboBox" name="cbPosition1"/>
+     </item>
+     <item row="3" column="2">
+      <widget class="QComboBox" name="cbPosition2"/>
      </item>
     </layout>
    </item>

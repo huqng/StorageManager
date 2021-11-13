@@ -2,6 +2,9 @@
 
 #include "ui_DlgAddItem.h"
 
+#include <qmap.h>
+#include <qlist.h>
+
 class DlgAddItem: public QDialog
 {
 	Q_OBJECT
@@ -16,11 +19,15 @@ private:
 	bool m_bPosition3Valid;
 	bool m_bCommentValid;
 
-	bool TextValid(const QString&);
+	bool IsValidID(const QString&);
+	bool IsValidText(const QString&);
 	void CheckTextAllValid();
 public:
-	DlgAddItem(int iItemID);
+	DlgAddItem();
 
+	void SetPositionOptions(QMap<QString, QStringList>);
+
+	QString GetItemID();
 	QString GetItemName();
 	int GetItemQuantity();
 	QString GetItemUnit();
@@ -30,11 +37,11 @@ public:
 	QString GetComments();
 
 public slots:
+	void slotOnLineEditItemIDEdited(QString strText);
 	void slotOnLineEditItemNameEdited(QString strText);
 	void slotOnSpinboxItemQuantityEdited(int iCnt);
 	void slotOnLineEditItemUnitEdited(QString strText);
-	void slotOnLineEditItemPosition1Edited(QString strText);
-	void slotOnLineEditItemPosition2Edited(QString strText);
+	void slotOnComboBoxPosition1CurrentIndexChanged(int iIndex);
 	void slotOnLineEditItemPosition3Edited(QString strText);
 	void slotOnLineEditCommentEdited(QString strText);
 };

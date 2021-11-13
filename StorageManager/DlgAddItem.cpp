@@ -1,6 +1,6 @@
 #include "DlgAddItem.h"
 
-DlgAddItem::DlgAddItem(int iItemID):
+DlgAddItem::DlgAddItem():
 	m_bNameValid(true),
 	m_bQuantityValid(true),
 	m_bUnitValid(true),
@@ -10,31 +10,45 @@ DlgAddItem::DlgAddItem(int iItemID):
 	m_bCommentValid(true)
 {
 	ui.setupUi(this);
-	ui.labelItemID->setText(QString::number(iItemID));
 
+	ui.lineEditItemID->setText("0");
 	ui.lineEditItemName->setText("name");
-	ui.sbItemQuantity->setMaximum(999);
+	ui.sbItemQuantity->setMaximum(9999);
 	ui.sbItemQuantity->setMinimum(1);
 	ui.sbItemQuantity->setValue(1);
 	ui.lineEditItemUnit->setText("unit");
-	ui.lineEditItemPosition1->setText("position1");
-	ui.lineEditItemPosition2->setText("position2");
+	
 	ui.lineEditItemPosition3->setText("position3");
 	ui.lineEditComments->setText("comments");
 
+	connect(ui.lineEditItemID, &QLineEdit::textEdited, this, &DlgAddItem::slotOnLineEditItemIDEdited);
 	connect(ui.lineEditItemName, &QLineEdit::textEdited, this, &DlgAddItem::slotOnLineEditItemNameEdited);
 	connect(ui.sbItemQuantity, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &DlgAddItem::slotOnSpinboxItemQuantityEdited);
 	connect(ui.lineEditItemUnit, &QLineEdit::textEdited, this, &DlgAddItem::slotOnLineEditItemUnitEdited);
-	connect(ui.lineEditItemPosition1, &QLineEdit::textEdited, this, &DlgAddItem::slotOnLineEditItemPosition1Edited);
-	connect(ui.lineEditItemPosition2, &QLineEdit::textEdited, this, &DlgAddItem::slotOnLineEditItemPosition2Edited);
 	connect(ui.lineEditItemPosition3, &QLineEdit::textEdited, this, &DlgAddItem::slotOnLineEditItemPosition3Edited);
 	connect(ui.lineEditComments, &QLineEdit::textEdited, this, &DlgAddItem::slotOnLineEditCommentEdited);
+	connect(ui.cbPosition1, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &DlgAddItem::slotOnComboBoxPosition1CurrentIndexChanged);
 }
 
 
+/* lineEdit编辑后检查文本合法性 */
+void DlgAddItem::slotOnLineEditItemIDEdited(QString strText)
+{
+	if (!strText.isEmpty() && IsValidID(strText))
+	{
+		m_bNameValid = true;
+		CheckTextAllValid();
+	}
+	else
+	{
+		ui.okButton->setDisabled(true);
+		m_bNameValid = false;
+	}
+}
+
 void DlgAddItem::slotOnLineEditItemNameEdited(QString strText)
 {
-	if (!strText.isEmpty() && TextValid(strText))
+	if (!strText.isEmpty() && IsValidText(strText))
 	{
 		m_bNameValid = true;
 		CheckTextAllValid();
@@ -62,7 +76,7 @@ void DlgAddItem::slotOnSpinboxItemQuantityEdited(int iCnt)
 
 void DlgAddItem::slotOnLineEditItemUnitEdited(QString strText)
 {
-	if (!strText.isEmpty() && TextValid(strText))
+	if (!strText.isEmpty() && IsValidText(strText))
 	{
 		m_bUnitValid = true;
 		CheckTextAllValid();
@@ -74,37 +88,9 @@ void DlgAddItem::slotOnLineEditItemUnitEdited(QString strText)
 	}
 }
 
-void DlgAddItem::slotOnLineEditItemPosition1Edited(QString strText)
-{
-	if (!strText.isEmpty() && TextValid(strText))
-	{
-		m_bPosition1Valid = true;
-		CheckTextAllValid();
-	}
-	else
-	{
-		ui.okButton->setDisabled(true);
-		m_bPosition1Valid = false;
-	}
-}
-
-void DlgAddItem::slotOnLineEditItemPosition2Edited(QString strText)
-{
-	if (!strText.isEmpty() && TextValid(strText))
-	{
-		m_bPosition2Valid = true;
-		CheckTextAllValid();
-	}
-	else
-	{
-		ui.okButton->setDisabled(true);
-		m_bPosition2Valid = false;
-	}
-}
-
 void DlgAddItem::slotOnLineEditItemPosition3Edited(QString strText)
 {
-	if (!strText.isEmpty() && TextValid(strText))
+	if (!strText.isEmpty() && IsValidText(strText))
 	{
 		m_bPosition3Valid = true;
 		CheckTextAllValid();
@@ -118,7 +104,7 @@ void DlgAddItem::slotOnLineEditItemPosition3Edited(QString strText)
 
 void DlgAddItem::slotOnLineEditCommentEdited(QString strText)
 {
-	if (TextValid(strText))
+	if (IsValidText(strText))
 	{
 		m_bCommentValid = true;
 		CheckTextAllValid();
@@ -130,7 +116,18 @@ void DlgAddItem::slotOnLineEditCommentEdited(QString strText)
 	}
 }
 
-bool DlgAddItem::TextValid(const QString& strText)
+void DlgAddItem::slotOnComboBoxPosition1CurrentIndexChanged(int iIndex)
+{
+	ui.cbPosition2->clear();
+	ui.cbPosition2->addItems(ui.cbPosition1->currentData().toStringList());
+}
+
+bool DlgAddItem::IsValidID(const QString& strID)
+{
+	return IsValidText(strID);
+}
+
+bool DlgAddItem::IsValidText(const QString& strText)
 {
 	for (QChar c : strText)
 	{
@@ -160,6 +157,22 @@ void DlgAddItem::CheckTextAllValid()
 	}
 }
 
+
+void DlgAddItem::SetPositionOptions(QMap<QString, QStringList> mapPositions)
+{
+	QMap<QString, QStringList>::Iterator iter = mapPositions.begin();
+	while (iter != mapPositions.end())
+	{
+		ui.cbPosition1->addItem(iter.key(), QVariant(iter.value()));
+		++iter;
+	}
+}
+
+QString DlgAddItem::GetItemID()
+{
+	return ui.lineEditItemID->text();
+}
+
 QString DlgAddItem::GetItemName()
 {
 	return ui.lineEditItemName->text();
@@ -177,12 +190,12 @@ QString DlgAddItem::GetItemUnit()
 
 QString DlgAddItem::GetItemPosition1()
 {
-	return ui.lineEditItemPosition1->text();
+	return ui.cbPosition1->currentText();
 }
 
 QString DlgAddItem::GetItemPosition2()
 {
-	return ui.lineEditItemPosition2->text();
+	return ui.cbPosition2->currentText();
 }
 
 QString DlgAddItem::GetItemPosition3()
