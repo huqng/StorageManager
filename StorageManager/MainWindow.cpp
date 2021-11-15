@@ -59,6 +59,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui.btnAddNewItem, &QPushButton::clicked, this, &MainWindow::slotOnAddNewItemClicked);
     connect(ui.btnDeleteItem, &QPushButton::clicked, this, &MainWindow::slotOnDeleteItemClicked);
     connect(ui.tableWidget, &QTableWidget::itemSelectionChanged, this, &MainWindow::slotOnItemSelected);
+    connect(ui.btnReset, &QPushButton::clicked, this, &MainWindow::slotOnResetClicked);
 }
 
 MainWindow::~MainWindow()
@@ -201,4 +202,12 @@ void MainWindow::slotOnItemSelected()
         ui.btnCheckOut->setEnabled(true);
         ui.btnDeleteItem->setEnabled(true);
     }
+}
+
+void MainWindow::slotOnResetClicked()
+{
+    ui.cbSearchBy->setCurrentIndex(0);
+    ui.lineEdit->clear();
+    ui.tableWidget->setRowCount(0);
+    ui.tableWidget->clearContents();
 }

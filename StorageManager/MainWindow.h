@@ -27,6 +27,7 @@ public slots:
     void slotOnSearchClicked();
     void slotOnAddNewItemClicked();
     void slotOnDeleteItemClicked();
+    void slotOnResetClicked();
 
     void slotOnItemSelected();
 };
