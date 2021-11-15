@@ -237,6 +237,18 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>lineEditItemID</tabstop>
+  <tabstop>lineEditItemName</tabstop>
+  <tabstop>cbPosition1</tabstop>
+  <tabstop>cbPosition2</tabstop>
+  <tabstop>lineEditItemPosition3</tabstop>
+  <tabstop>sbItemQuantity</tabstop>
+  <tabstop>lineEditItemUnit</tabstop>
+  <tabstop>lineEditComments</tabstop>
+  <tabstop>okButton</tabstop>
+  <tabstop>cancelButton</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>

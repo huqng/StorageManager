@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>975</width>
-    <height>778</height>
+    <width>1002</width>
+    <height>665</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -68,13 +68,16 @@
      </layout>
     </item>
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="1,2,8,1">
       <item>
        <widget class="QLabel" name="label">
         <property name="text">
-         <string>Name</string>
+         <string>Search by</string>
         </property>
        </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="cbSearchBy"/>
       </item>
       <item>
        <widget class="QLineEdit" name="lineEdit"/>
@@ -145,7 +148,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>975</width>
+     <width>1002</width>
      <height>23</height>
     </rect>
    </property>

@@ -15,7 +15,7 @@ public:
     void Close();
 
     void SetFilename(QString strFilename);
-    QList<QStringList> SelectNameLike(QString strNameLike);
+    QList<QStringList> SelectByColumnLike(QString strColName, QString strNameLike);
     void Update(QString strItemID, int iNewQuantity);
     void Delete(QString strItemID);
     void Insert(QString strItemID, QString strItemName, int iItemQuantity, QString strItemUnit, QString strItemPosition1, QString strItemPosition2, QString strItemPosition3, QString strComments);
@@ -35,7 +35,7 @@ public:
     void SetFilename(QString strFilename);
 
     void SetColNames(QStringList strlistNames);
-    QList<QStringList> Select(QString strNameLike);
+    QList<QStringList> SelectByColumnLike(QString strColName, QString strNameLike);
     void Update(QString strItemID, int iNewQuantity);
     void Delete(QString strItemID);
     void Insert(QString strItemID, QString strItemName, int iItemQuantity, QString strItemUnit, QString strItemPosition1, QString strItemPosition2, QString strItemPosition3, QString strComments);

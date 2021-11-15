@@ -15,6 +15,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     this->resize(1000, 600);
 
+    /* buttons */
     ui.btnCheckIn->setDisabled(true);
     ui.btnCheckOut->setDisabled(true);
     ui.btnDeleteItem->setDisabled(true);
@@ -22,6 +23,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui.tableWidget->setEditTriggers(QTableWidget::NoEditTriggers);
     ui.tableWidget->setSelectionMode(QTableWidget::SingleSelection);
 
+    /* headers */
     QStringList strlistColNames;
     strlistColNames.append("ItemID");
     strlistColNames.append("ItemName");
@@ -37,6 +39,7 @@ MainWindow::MainWindow(QWidget *parent)
     m_mgr.SetFilename(iniReader.value("Filename").toString());
     iniReader.endGroup();
 
+    /* read ini */
     iniReader.beginGroup("Position");
     QStringList strlistPositions = iniReader.allKeys();
     for (QString strPosition : strlistPositions)
@@ -46,6 +49,10 @@ MainWindow::MainWindow(QWidget *parent)
     }
     iniReader.endGroup();
 
+    /* combobox search by */
+    ui.cbSearchBy->addItems(strlistColNames);
+
+    /* connection */
     connect(ui.btnCheckIn, &QPushButton::clicked, this, &MainWindow::slotOnCheckInClicked);
     connect(ui.btnCheckOut, &QPushButton::clicked, this, &MainWindow::slotOnCheckOutClicked);
     connect(ui.btnSearch, &QPushButton::clicked, this, &MainWindow::slotOnSearchClicked);
@@ -113,7 +120,7 @@ void MainWindow::slotOnSearchClicked()
     ui.tableWidget->clearContents();
     
     QString strNameLike = ui.lineEdit->text();
-    QList<QStringList> listResult =  m_mgr.Select(strNameLike);
+    QList<QStringList> listResult =  m_mgr.SelectByColumnLike(ui.cbSearchBy->currentText(), strNameLike);
     ui.tableWidget->setRowCount(listResult.at(0).size());
     
     for (int i = 0; i < listResult.size(); i++)

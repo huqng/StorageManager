@@ -35,10 +35,10 @@ void MdbControl::SetFilename(QString strFilename)
     m_db.open();    
 }
 
-QList<QStringList> MdbControl::SelectNameLike(QString strSearchCondition)
+QList<QStringList> MdbControl::SelectByColumnLike(QString strColName, QString strSearchCondition)
 {
     QSqlQuery q(m_db);
-    bool ok = q.exec(QString("SELECT * FROM Storage WHERE ItemName LIKE '%") + strSearchCondition + "%';");
+    bool ok = q.exec(QString("SELECT * FROM Storage WHERE ").append(strColName).append(" LIKE '%") + strSearchCondition + "%'; ");
 
     QSqlRecord rec = q.record();
     int iColCnt = rec.count();
@@ -84,7 +84,7 @@ void MdbControl::Update(QString strItemID, int iNewQuantity)
 void MdbControl::Delete(QString strItemID)
 {
     QSqlQuery q(m_db);
-    QString strCmd = QString("DELETE FROM Storage WHERE ItemID = ").append(strItemID);
+    QString strCmd = QString("DELETE FROM Storage WHERE ItemID = '").append(strItemID).append("'");
     bool ok = q.exec(strCmd);
     if (!ok)
     {
@@ -161,10 +161,10 @@ void CStorageManager::SetColNames(QStringList strlistNames)
     m_strlistColNames = strlistNames;
 }
 
-QList<QStringList> CStorageManager::Select(QString strNameLike)
+QList<QStringList> CStorageManager::SelectByColumnLike(QString strColName, QString strNameLike)
 {
     m_strLastQuery = strNameLike;
-    return m_MdbControl.SelectNameLike(strNameLike);
+    return m_MdbControl.SelectByColumnLike(strColName, strNameLike);
 }
 
 void CStorageManager::Update(QString strItemID, int iNewQuantity)
