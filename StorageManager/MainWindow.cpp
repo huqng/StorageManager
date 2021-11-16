@@ -13,7 +13,8 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui.setupUi(this);
 
-    this->resize(1000, 600);
+    this->resize(1280, 720);
+    this->setMinimumSize(1000, 600);
 
     /* buttons */
     ui.btnCheckIn->setDisabled(true);
@@ -121,9 +122,11 @@ void MainWindow::slotOnSearchClicked()
     ui.tableWidget->clearContents();
     
     QString strNameLike = ui.lineEdit->text();
+    /* get data */
     QList<QStringList> listResult =  m_mgr.SelectByColumnLike(ui.cbSearchBy->currentText(), strNameLike);
     ui.tableWidget->setRowCount(listResult.at(0).size());
     
+    /* display */
     for (int i = 0; i < listResult.size(); i++)
     {
         QStringList strlistCol = listResult.at(i);

@@ -8,6 +8,12 @@
 
 MdbControl::MdbControl()
 {
+
+}
+
+MdbControl::~MdbControl()
+{
+    m_db.close();
 }
 
 bool MdbControl::IsOpen()
@@ -69,10 +75,10 @@ QList<QStringList> MdbControl::SelectByColumnLike(QString strColName, QString st
     return listQueryResult;
 }
 
-void MdbControl::Update(QString strItemID, int iNewQuantity)
+void MdbControl::UpdateQuantityByID(QString strItemID, int iNewQuantity)
 {
     QSqlQuery q(m_db);
-    QString strCmd = QString("UPDATE Storage SET ItemQuantity = ") + QString::number(iNewQuantity) + " WHERE ItemID = " + strItemID + "";
+    QString strCmd = QString("UPDATE Storage SET ItemQuantity = ") + QString::number(iNewQuantity) + " WHERE ItemID = '" + strItemID + "'";
     bool ok = q.exec(strCmd);
     if (!ok)
     {
@@ -169,7 +175,7 @@ QList<QStringList> CStorageManager::SelectByColumnLike(QString strColName, QStri
 
 void CStorageManager::Update(QString strItemID, int iNewQuantity)
 {
-    return m_MdbControl.Update(strItemID, iNewQuantity);
+    return m_MdbControl.UpdateQuantityByID(strItemID, iNewQuantity);
 }
 
 void CStorageManager::Delete(QString strItemID)
