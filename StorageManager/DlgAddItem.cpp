@@ -131,7 +131,7 @@ bool DlgAddItem::IsValidText(const QString& strText)
 {
 	for (QChar c : strText)
 	{
-		if (c <= 0xFF && !c.isDigit() && !c.isLetter())
+		if (c.unicode() <= 0xFF && !c.isDigit() && !c.isLetter())
 		{
 			return false;
 		}

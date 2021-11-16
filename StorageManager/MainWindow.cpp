@@ -35,9 +35,9 @@ MainWindow::MainWindow(QWidget *parent)
     strlistColNames.append("ItemPosition1");
     strlistColNames.append("Comments");    
     m_mgr.SetColNames(strlistColNames);
-    QSettings iniReader("./config.ini", QSettings::Format::IniFormat);
+    QSettings iniReader("../../data/config.ini", QSettings::Format::IniFormat);
     iniReader.beginGroup("File");
-    m_mgr.SetFilename(iniReader.value("Filename").toString());
+    m_mgr.OpenDataBase(iniReader.value("Filename").toString());
     iniReader.endGroup();
 
     /* read ini */

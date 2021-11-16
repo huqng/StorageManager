@@ -31,7 +31,7 @@ void MdbControl::Close()
     m_db.close();
 }
 
-void MdbControl::SetFilename(QString strFilename)
+void MdbControl::OpenDataBase(QString strFilename)
 {
     m_db = QSqlDatabase::addDatabase("QODBC");//设置数据库驱动
     QString dsn = QString("DRIVER={Microsoft Access Driver (*.mdb, *.accdb)}; FIL={MS Access}; DBQ=%1;").arg(strFilename);//连接字符串
@@ -142,16 +142,14 @@ bool MdbControl::ExistID(const QString& strID)
     }
 }
 
-
-
 CStorageManager::CStorageManager()
 {
 
 }
 
-void CStorageManager::SetFilename(QString strFilename)
+void CStorageManager::OpenDataBase(QString strFilename)
 {
-    m_MdbControl.SetFilename(strFilename);
+    m_MdbControl.OpenDataBase(QString("../../data/").append(strFilename));
     if (!m_MdbControl.IsOpen())
     {
         QString strLastError = m_MdbControl.GetLastError();

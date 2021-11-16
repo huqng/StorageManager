@@ -15,7 +15,7 @@ public:
     QString GetLastError();
     void Close();
 
-    void SetFilename(QString strFilename);
+    void OpenDataBase(QString strFilename);
     QList<QStringList> SelectByColumnLike(QString strColName, QString strNameLike);
     void UpdateQuantityByID(QString strItemID, int iNewQuantity);
     void Delete(QString strItemID);
@@ -33,7 +33,7 @@ private:
     QString m_strLastQuery;
 public:
     CStorageManager();
-    void SetFilename(QString strFilename);
+    void OpenDataBase(QString strFilename);
 
     void SetColNames(QStringList strlistNames);
     QList<QStringList> SelectByColumnLike(QString strColName, QString strNameLike);
