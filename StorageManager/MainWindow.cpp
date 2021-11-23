@@ -16,6 +16,7 @@ MainWindow::MainWindow(QWidget *parent)
     this->resize(1280, 720);
     this->setMinimumSize(1000, 600);
     this->setWindowTitle(u8"将就着用用的仓储管理系统");
+    this->setWindowIcon(QIcon(":/new/prefix1/icon.ico"));
 
     /* buttons */
     ui.btnCheckIn->setDisabled(true);
