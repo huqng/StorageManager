@@ -149,7 +149,7 @@ CStorageManager::CStorageManager()
 
 void CStorageManager::OpenDataBase(QString strFilename)
 {
-    m_MdbControl.OpenDataBase(QString("../../data/").append(strFilename));
+    m_MdbControl.OpenDataBase(strFilename);
     if (!m_MdbControl.IsOpen())
     {
         QString strLastError = m_MdbControl.GetLastError();

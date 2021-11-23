@@ -20,6 +20,7 @@ private:
     Ui::MainWindowClass ui;
     CStorageManager m_mgr;
     QMap<QString, QStringList> m_mapPositions;
+    QMap<QString, QString> m_mapCn2Eng;
 
 public slots:
     void slotOnCheckInClicked();

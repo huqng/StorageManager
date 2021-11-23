@@ -10,6 +10,8 @@ DlgAddItem::DlgAddItem():
 	m_bCommentValid(true)
 {
 	ui.setupUi(this);
+	
+	this->setWindowTitle(u8"Ìí¼Ó");
 
 	ui.lineEditItemID->setText("0");
 	ui.lineEditItemName->setText("name");
@@ -131,7 +133,7 @@ bool DlgAddItem::IsValidText(const QString& strText)
 {
 	for (QChar c : strText)
 	{
-		if (c.unicode() <= 0xFF && !c.isDigit() && !c.isLetter())
+		if (c.unicode() <= 0xFF && !c.isDigit() && !c.isLetter() && c.unicode() != ' ')
 		{
 			return false;
 		}

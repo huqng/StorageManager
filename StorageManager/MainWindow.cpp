@@ -2,7 +2,7 @@
 
 #include "DlgCheckIn.h"
 #include "DlgCheckOut.h"
-#include "DlgAddItem.h";
+#include "DlgAddItem.h"
 
 #include <qmessagebox.h>
 #include <qsettings.h>
@@ -15,6 +15,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     this->resize(1280, 720);
     this->setMinimumSize(1000, 600);
+    this->setWindowTitle(u8"将就着用用的仓储管理系统");
 
     /* buttons */
     ui.btnCheckIn->setDisabled(true);
@@ -25,19 +26,44 @@ MainWindow::MainWindow(QWidget *parent)
     ui.tableWidget->setSelectionMode(QTableWidget::SingleSelection);
 
     /* headers */
-    QStringList strlistColNames;
-    strlistColNames.append("ItemID");
-    strlistColNames.append("ItemName");
-    strlistColNames.append("ItemQuantity");
-    strlistColNames.append("ItemUnit");
-    strlistColNames.append("ItemPosition1");
-    strlistColNames.append("ItemPosition1");
-    strlistColNames.append("ItemPosition1");
-    strlistColNames.append("Comments");    
+    QStringList strlistColNames = {
+        "ItemID",
+        "ItemName",
+        "ItemQuantity",
+        "ItemUnit",
+        "ItemPosition1",
+        "ItemPosition2",
+        "ItemPosition3",
+        "Comments" };
+    QStringList strlistColNamesCn = {
+        u8"编号",
+        u8"名称",
+        u8"数量",
+        u8"单位",
+        u8"位置1",
+        u8"位置2",
+        u8"位置3",
+        u8"备注"
+    };
     m_mgr.SetColNames(strlistColNames);
-    QSettings iniReader("../../data/config.ini", QSettings::Format::IniFormat);
+    ui.cbSearchBy->addItems(strlistColNamesCn);
+
+    m_mapCn2Eng[u8"编号"] = "ItemID";
+    m_mapCn2Eng[u8"名称"] = "ItemName";
+    m_mapCn2Eng[u8"数量"] = "ItemQuantity";
+    m_mapCn2Eng[u8"单位"] = "ItemUnit";
+    m_mapCn2Eng[u8"位置1"] = "ItemPosition1";
+    m_mapCn2Eng[u8"位置2"] = "ItemPosition2";
+    m_mapCn2Eng[u8"位置3"] = "ItemPosition3";
+    m_mapCn2Eng[u8"备注"] = "Comments";
+        
+
+    /* combobox search by */
+
+    QSettings iniReader("./data/config.ini", QSettings::Format::IniFormat);
     iniReader.beginGroup("File");
-    m_mgr.OpenDataBase(iniReader.value("Filename").toString());
+    QString strPath = iniReader.value("Filename").toString();
+    m_mgr.OpenDataBase(strPath);
     iniReader.endGroup();
 
     /* read ini */
@@ -50,8 +76,6 @@ MainWindow::MainWindow(QWidget *parent)
     }
     iniReader.endGroup();
 
-    /* combobox search by */
-    ui.cbSearchBy->addItems(strlistColNames);
 
     /* connection */
     connect(ui.btnCheckIn, &QPushButton::clicked, this, &MainWindow::slotOnCheckInClicked);
@@ -123,7 +147,7 @@ void MainWindow::slotOnSearchClicked()
     
     QString strNameLike = ui.lineEdit->text();
     /* get data */
-    QList<QStringList> listResult =  m_mgr.SelectByColumnLike(ui.cbSearchBy->currentText(), strNameLike);
+    QList<QStringList> listResult = m_mgr.SelectByColumnLike(m_mapCn2Eng[ui.cbSearchBy->currentText()], strNameLike);
     ui.tableWidget->setRowCount(listResult.at(0).size());
     
     /* display */

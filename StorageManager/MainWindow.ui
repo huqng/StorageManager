@@ -65,7 +65,7 @@
       <item>
        <widget class="QLabel" name="label">
         <property name="text">
-         <string>Search by</string>
+         <string>查询方式：</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -104,12 +104,12 @@
       </attribute>
       <column>
        <property name="text">
-        <string>ID</string>
+        <string>编号</string>
        </property>
       </column>
       <column>
        <property name="text">
-        <string>Name</string>
+        <string>名称</string>
        </property>
       </column>
       <column>
@@ -152,7 +152,7 @@
      <x>0</x>
      <y>0</y>
      <width>1002</width>
-     <height>23</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>

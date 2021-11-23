@@ -12,6 +12,8 @@ DlgCheckOut::DlgCheckOut(QString strItemID, \
 {
 	ui.setupUi(this);
 
+	this->setWindowTitle(u8"³ö¿â");
+
 	ui.labelItemID->setText(strItemID);
 	ui.labelItemName->setText(strItemName);
 	ui.labelCurrentQuantityUnit->setText(QString::number(iCurrentQuantity).append(" ").append(strItemUnit));

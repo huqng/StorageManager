@@ -22,6 +22,7 @@ private:
 	bool IsValidID(const QString&);
 	bool IsValidText(const QString&);
 	void CheckTextAllValid();
+
 public:
 	DlgAddItem();
 

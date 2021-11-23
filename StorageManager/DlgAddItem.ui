@@ -32,7 +32,7 @@
      <item row="0" column="1">
       <widget class="QLabel" name="label">
        <property name="text">
-        <string>标识号</string>
+        <string>编号</string>
        </property>
       </widget>
      </item>
